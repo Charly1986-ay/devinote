@@ -20,7 +20,7 @@ class NoteShare(SQLModel, table=True):
     role: ShareRol = Field(default=ShareRol.READ) 
 
 
-class NoteShare(SQLModel, table=True):
+class LabelShare(SQLModel, table=True):
     __tablename__ = 'label_share'
     __table_args__ = (
         UniqueConstraint('label_id', 'user_id', name='uq_label_user')
