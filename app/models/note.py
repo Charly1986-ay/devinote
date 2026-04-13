@@ -17,7 +17,7 @@ class NoteCreate(SQLModel):
     title: str
     content: str
     color: Optional[str] = None
-    label_id: Optional[List[int]] = None
+    label_ids: Optional[List[int]] = None
 
 
 class NoteUpdate(SQLModel):    
