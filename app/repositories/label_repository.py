@@ -5,7 +5,7 @@ from sqlmodel import Session, delete, select
 from app.models.label import Label, NoteLabelLink
 from app.models.share import LabelShare
 
-class LabelReository:
+class LabelRepository:
     def __init__(self, db: Session):
         self.db = db
 

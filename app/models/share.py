@@ -3,7 +3,7 @@ from enum import Enum
 from sqlmodel import Field, SQLModel, UniqueConstraint
 
 
-class ShareRol(str, Enum):
+class ShareRole(str, Enum):
     READ = 'read'
     EDIT = 'edit'
 
