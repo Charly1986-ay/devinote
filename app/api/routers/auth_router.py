@@ -29,6 +29,8 @@ def login(email: str, password: str, db: DBSession):
 
 @router.post('/token')
 def login(db: DBSession, form: OAuth2PasswordRequestForm = Depends()):
+    email = form.username
+    password = form.password
     service = AuthServices(UserRepository(db=db))
     token = service.login(email=email, password=password)
     return {'access_token': token, 'token_type': 'bearer'}
