@@ -9,7 +9,7 @@ class AuthServices:
     def __init__(self, repo: UserRepository):
         self.repo = repo
 
-    def register(self, payload: UserCreate):
+    def register(self, payload: UserCreate) -> User:
         if self.repo.get_by_email(payload.email):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
@@ -23,7 +23,7 @@ class AuthServices:
         )
         return self.repo.create(user=user)
     
-    def login(self, email: str, password: str) -> bool:
+    def login(self, email: str, password: str) -> str:
         user = self.repo.get_by_email(email=email)
 
         if not user or not verify_password(password[:72], user.hashed_password):
