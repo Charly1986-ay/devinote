@@ -66,18 +66,18 @@ class NoteService:
         return sorted(combined.values(), key=lambda note: note.id, reverse=True)
     
 
-    def create(self, owner_id: int, playload: NoteCreate) -> Note:
+    def create(self, owner_id: int, payload: NoteCreate) -> Note:
         note = self.notes.create(
             owner_id=owner_id,
-            **playload.model_dump(exclude={"label_ids"})
+            **payload.model_dump(exclude={"label_ids"})
         )
 
-        if playload.label_ids:
-            self._set_labels(owner_id=owner_id, note_id=note.id, label_ids=playload.label_ids)        
+        if payload.label_ids:
+            self._set_labels(owner_id=owner_id, note_id=note.id, label_ids=payload.label_ids)        
         return note
     
 
-    def update(self, user_id: int, note_id: int, playload: NoteUpdate) -> Note:
+    def update(self, user_id: int, note_id: int, payload: NoteUpdate) -> Note:
         note = self.notes.get(note_id=note_id)        
 
         if not note:
@@ -92,7 +92,7 @@ class NoteService:
                 detail='No autorizado'
             )
         
-        updates = playload.model_dump(exclude=True)
+        updates = payload.model_dump(exclude=True)
         label_ids = self.updates.pop('label_ids', None)
 
         for key, value in updates.items():

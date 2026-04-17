@@ -14,9 +14,9 @@ router = APIRouter(prefix='/auth', tags=['Auth'])
     response_model=UserRead, 
     status_code=status.HTTP_201_CREATED
 )
-def resgister(playload: UserCreate, db: DBSession):
+def resgister(payload: UserCreate, db: DBSession):
     service = AuthServices(UserRepository(db=db))
-    return service.register(playload=playload)
+    return service.register(payload=payload)
 
 
 @router.post('/login')

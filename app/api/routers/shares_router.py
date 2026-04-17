@@ -11,15 +11,15 @@ router = APIRouter(prefix='/shares', tags=['shares'])
 @router.post('/notes/{note_id}', status_code=status.HTTP_201_CREATED)
 def share_note(
     note_id: int, 
-    playload: ShareRequest, 
+    payload: ShareRequest, 
     db: DBSession, 
     user: current_user
 ):
     share = ShareServices(db).share_note(
         owner_id=user.id, 
         note_id=note_id, 
-        target_user_id=playload.target_id, 
-        role=playload.role
+        target_user_id=payload.target_id, 
+        role=payload.role
     )
 
     return {
@@ -48,15 +48,15 @@ def unhare_note(
 @router.post('/labels/{label_id}', status_code=status.HTTP_201_CREATED)
 def share_label(
     label_id: int, 
-    playload: ShareRequest, 
+    payload: ShareRequest, 
     db: DBSession, 
     user: current_user
 ):
     share = ShareServices(db).share_label(
         owner_id=user.id, 
         label_id=label_id, 
-        target_user_id=playload.target_id, 
-        role=playload.role
+        target_user_id=payload.target_id, 
+        role=payload.role
     )
 
     return {

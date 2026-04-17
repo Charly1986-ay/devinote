@@ -13,13 +13,13 @@ class LabelService:
     def list(self, owner_id: int) -> list[Label]:
         return self.repo.list_by_user(owner_id=owner_id)
     
-    def create(self, owner_id: int, playload: LabelCreate) -> Label:
-        if self.repo.get_by_name(owner_id=owner_id, name=playload.name):
+    def create(self, owner_id: int, payload: LabelCreate) -> Label:
+        if self.repo.get_by_name(owner_id=owner_id, name=payload.name):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail='La etiqueta ya existe!!'
             )
-        self.repo.create(owner_id=owner_id, name=playload.name)
+        self.repo.create(owner_id=owner_id, name=payload.name)
 
     def delete(self, owner_id: int, label_id: int) -> None:
         label = self.repo.get(label_id=label_id)

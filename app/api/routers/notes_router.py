@@ -14,21 +14,21 @@ def list_notes(db: DBSession, user: current_user):
 
 
 @router.post('/', response_model=NoteRead, status_code=status.HTTP_201_CREATED)
-def create_note(playload: NoteCreate, db: DBSession, user: current_user):
-    return NoteService(db=db).create(owner_id=user.id, playload=playload)
+def create_note(payload: NoteCreate, db: DBSession, user: current_user):
+    return NoteService(db=db).create(owner_id=user.id, payload=payload)
 
 
 @router.patch('/{note_id}', response_model=NoteRead)
 def update_note(
     note_id: int, 
-    playload: NoteCreate, 
+    payload: NoteCreate, 
     db: DBSession, 
     user: current_user
 ):
     return NoteService(db=db).update(
         user_id=user.id, 
         note_id=note_id, 
-        playload=playload
+        payload=payload
     )
 
 

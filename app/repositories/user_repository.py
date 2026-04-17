@@ -1,6 +1,4 @@
-from select import select
-
-from sqlmodel import Session
+from sqlmodel import Session, select
 
 from app.models.user import User
 

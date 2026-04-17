@@ -6,10 +6,10 @@ from pwdlib import PasswordHash
 from .config import settings
 
 
-pwd_content = PasswordHash
+pwd_content = PasswordHash.recommended()
 
 
-def has_password(plain: str) -> str:
+def hash_password(plain: str) -> str:
     return pwd_content.hash(plain)
 
 def verify_password(plain: str, hash: str) -> bool:

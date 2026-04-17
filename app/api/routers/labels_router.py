@@ -14,8 +14,8 @@ def list_labels(db: DBSession, user: current_user):
 
 
 @router.post('/', response_model=LabelRead, status_code=status.HTTP_201_CREATED)
-def create(playload: LabelCreate, db: DBSession, user: current_user):
-    return LabelService(db=db).create(owner_id=user.id, playload=playload)
+def create(payload: LabelCreate, db: DBSession, user: current_user):
+    return LabelService(db=db).create(owner_id=user.id, payload=payload)
 
 
 @router.put('/{label_id}', response_model=LabelRead, status_code=status.HTTP_201_CREATED)

@@ -1,6 +1,6 @@
 from fastapi import HTTPException, status
 
-from app.core.security import create_access_token, verify_password
+from app.core.security import create_access_token, verify_password, hash_password
 from app.models.user import User, UserCreate
 from app.repositories.user_repository import UserRepository
 
@@ -9,17 +9,17 @@ class AuthServices:
     def __init__(self, repo: UserRepository):
         self.repo = repo
 
-    def register(self, playload: UserCreate):
-        if self.repo.get_by_email(playload.email):
+    def register(self, payload: UserCreate):
+        if self.repo.get_by_email(payload.email):
             raise HTTPException(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail='Email ya registrado'
             )
         
         user = User(
-            email=playload.email,
-            full_name=playload.full_name,
-            hashed_password=playload.hashed_password[:72]
+            email=payload.email,
+            full_name=payload.full_name,
+            hashed_password=hash_password(payload.password[:72])
         )
         return self.repo.create(user=user)
     
