@@ -1,7 +1,7 @@
 from typing import List, Optional
 
 from pydantic import ConfigDict
-from sqlmodel import Field, SQLModel
+from sqlmodel import SQLModel, Field
 
 
 class Note(SQLModel, table=True):
@@ -9,26 +9,27 @@ class Note(SQLModel, table=True):
     title: str
     content: str = ""
     color: Optional[str] = None
-    owner_id: int = Field(foreign_key='user.id', index=True)
-
+    owner_id: int = Field(foreign_key="user.id", index=True)
 
 # DTOs
-class NoteCreate(SQLModel):    
+
+
+class NoteCreate(SQLModel):
     title: str
-    content: str
+    content: str = ""
     color: Optional[str] = None
-    label_ids: Optional[List[int]] = None
+    label_ids: Optional[list[int]] = None
 
 
-class NoteUpdate(SQLModel):    
+class NoteUpdate(SQLModel):
     title: Optional[str] = None
     content: Optional[str] = None
     color: Optional[str] = None
-    label_id: Optional[List[int]] = None
+    label_ids: Optional[list[int]] = None
 
 
-class NoteRead(SQLModel):  
-    id: int  
+class NoteRead(SQLModel):
+    id: int
     title: str
     content: str
     color: Optional[str]

@@ -2,8 +2,8 @@ from fastapi import HTTPException, status
 from sqlmodel import Session
 
 from app.models.note import Note, NoteCreate, NoteUpdate
-from app.models.share import ShareRol
-from app.repositories.label_repository import LabelReository
+from app.models.share import ShareRole
+from app.repositories.label_repository import LabelRepository
 from app.repositories.note_repository import NoteRepository
 from app.repositories.share_repository import ShareRepository
 
@@ -12,7 +12,7 @@ class NoteService:
     def __init__(self, db: Session):
         self.db = db
         self.notes = NoteRepository(db=db)
-        self.labels = LabelReository(db=db)
+        self.labels = LabelRepository(db=db)
         self.shares = ShareRepository(db=db)
 
     # permisos
@@ -43,7 +43,7 @@ class NoteService:
         return self.shares.has_any_label_share(
             label_ids=labels_id, 
             user_id=user_id,
-            role=ShareRol.EDIT
+            role=ShareRole.EDIT
         )
     
     
