@@ -1,6 +1,5 @@
-from typing import List, Optional
 
-from pydantic import ConfigDict
+from typing import Optional
 from sqlmodel import SQLModel, Field
 
 
@@ -33,4 +32,4 @@ class NoteRead(SQLModel):
     title: str
     content: str
     color: Optional[str]
-    model_config = ConfigDict(from_attributes=True)
+    model_config = {"from_attributes": True}

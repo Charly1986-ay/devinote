@@ -1,4 +1,5 @@
-from pydantic import ConfigDict
+
+
 from sqlalchemy import UniqueConstraint
 from sqlmodel import SQLModel, Field
 
@@ -30,4 +31,4 @@ class LabelCreate(SQLModel):
 class LabelRead(SQLModel):
     id: int
     name: str
-    model_config = ConfigDict(from_attributes=True)
+    model_config = {"from_attributes": True}

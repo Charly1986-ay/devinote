@@ -1,7 +1,8 @@
-""" from app.models.label import Label
-from app.models.note import Note
-from app.models.share import LabelShare, NoteShare
-from app.models.user import User
+
+from .label import Label
+from .note import Note
+from .share import LabelShare, NoteShare
+from .user import User
 
 
-__all__ = ['Label', 'Note', 'LabelShare', 'NoteShare', 'User'] """
+__all__ = ["Label", "Note", "LabelShare", "NoteShare", "User"]

@@ -1,6 +1,7 @@
-from typing import Annotated
 
-from fastapi import Depends, status, HTTPException
+
+from typing import Annotated
+from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from sqlmodel import Session
 
@@ -9,34 +10,39 @@ from app.core.security import decode_token
 from app.models.user import User
 from app.repositories.user_repository import UserRepository
 
-oauth2_schema = OAuth2PasswordBearer(tokenUrl='/api/v1/auth/token')
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/token")
 
 
 def get_db() -> Session:
     return next(get_session())
 
+
 # db: Session = Depends(get_db)
-DBSession = Annotated[Session, Depends(get_db)] 
+DBSession = Annotated[Session, Depends(get_db)]
 # db: DBSession
 
-def get_current_user(token: Annotated[str, Depends(oauth2_schema)], db: DBSession) -> User:
-    
+
+def get_current_user(token: Annotated[str, Depends(oauth2_scheme)], db: DBSession) -> User:
+
     credentials_exc = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
-        detail='No autorizado',
-        headers={'WWW-Authenticate': 'Bearer'}
+        detail="No autorizado",
+        headers={"WWW-Authenticate": "Bearer"}
     )
 
     try:
-        payload = decode_token(token=token)
-        user_id = int(payload.get('sub'))
+        payload = decode_token(token)
+        user_id = int(payload.get("sub"))
     except Exception:
         raise credentials_exc
-    
-    repo = UserRepository(db=db)
-    user = repo.get_by_id(user_id=user_id)
 
-    if not user: raise credentials_exc
+    repo = UserRepository(db)
+    user = repo.get_by_id(user_id)
+
+    if not user:
+        raise credentials_exc
+
     return user
 
-current_user = Annotated[User, Depends(get_current_user)]
+
+CurrentUser = Annotated[User, Depends(get_current_user)]

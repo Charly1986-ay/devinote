@@ -1,35 +1,35 @@
+
+
 from fastapi import APIRouter, Depends, status
 from fastapi.security import OAuth2PasswordRequestForm
+from sqlmodel import Session
 
-from app.api.deps import DBSession
+from app.api.deps import get_db, DBSession
 from app.models.user import UserCreate, UserRead
 from app.repositories.user_repository import UserRepository
-from app.services.auth_services import AuthServices
-
-router = APIRouter(prefix='/auth', tags=['Auth'])
+from app.services.auth_service import AuthService
 
 
-@router.post(
-    '/register', 
-    response_model=UserRead, 
-    status_code=status.HTTP_201_CREATED
-)
-def resgister(payload: UserCreate, db: DBSession):
-    service = AuthServices(UserRepository(db=db))
-    return service.register(payload=payload)
+router = APIRouter(prefix="/auth", tags=["Auth"])
 
 
-@router.post('/login')
+@router.post("/register", response_model=UserRead, status_code=status.HTTP_201_CREATED)
+def register(payload: UserCreate, db: DBSession):
+    service = AuthService(UserRepository(db))
+    return service.register(payload)
+
+
+@router.post("/login")
 def login(email: str, password: str, db: DBSession):
-    service = AuthServices(UserRepository(db=db))
-    token = service.login(email=email, password=password)
-    return {'access_token': token, 'token_type': 'bearer'}
+    service = AuthService(UserRepository(db))
+    token = service.login(email, password)
+    return {"access_token": token, "token_type": "bearer"}
 
 
-@router.post('/token')
+@router.post("/token")
 def login(db: DBSession, form: OAuth2PasswordRequestForm = Depends()):
     email = form.username
     password = form.password
-    service = AuthServices(UserRepository(db=db))
-    token = service.login(email=email, password=password)
-    return {'access_token': token, 'token_type': 'bearer'}
+    service = AuthService(UserRepository(db))
+    token = service.login(email, password)
+    return {"access_token": token, "token_type": "bearer"}

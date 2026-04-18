@@ -1,4 +1,5 @@
-from pydantic import ConfigDict
+
+
 from sqlmodel import Field, SQLModel
 
 
@@ -19,4 +20,4 @@ class UserRead(SQLModel):
     id: int
     email: str
     full_name: str
-    model_config = ConfigDict(from_attributes=True)
+    model_config = {"from_attributes": True}
