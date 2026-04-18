@@ -30,7 +30,16 @@ if config.config_file_name is not None:
 # target_metadata = mymodel.Base.metadata
 load_dotenv()
 
-DATABASE_URL = os.getenv('DATABASE_URL')
+#DATABASE_URL = os.getenv('DATABASE_URL')
+
+raw_url = os.environ('DATABASE_URL')
+
+if raw_url.startswith('postgres://'):
+    raw_url = 'postgresql+psycopg://' + raw_url[len('postgres://'):]
+elif raw_url.startswith('postgres://') and '+psycopg' not in raw_url:
+    raw_url = 'postgresql+psycopg://' + raw_url[len('postgresql://'):]
+
+DATABASE_URL = raw_url
 
 target_metadata = SQLModel.metadata
 
