@@ -32,14 +32,15 @@ load_dotenv()
 
 #DATABASE_URL = os.getenv('DATABASE_URL')
 
-raw_url = os.environ('DATABASE_URL')
+raw_url = os.environ["DATABASE_URL"]
+url = raw_url
 
-if raw_url.startswith('postgres://'):
-    raw_url = 'postgresql+psycopg://' + raw_url[len('postgres://'):]
-elif raw_url.startswith('postgres://') and '+psycopg' not in raw_url:
-    raw_url = 'postgresql+psycopg://' + raw_url[len('postgresql://'):]
+if url.startswith("postgres://"):
+    url = "postgresql+psycopg://" + url[len("postgres://"):]
+elif url.startswith("postgresql://") and "+psycopg" not in url:
+    url = "postgresql+psycopg://" + url[len("postgresql://"):]
 
-DATABASE_URL = raw_url
+DATABASE_URL = url
 
 target_metadata = SQLModel.metadata
 
